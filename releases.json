@@ -2,6 +2,46 @@
   "schemaVersion": 1,
   "repository": "augustocbx/voicewoven-releases",
   "latest": null,
-  "latestPreview": null,
-  "releases": []
+  "latestPreview": {
+    "version": "0.1.19-preview.1",
+    "tag": "v0.1.19-preview.1",
+    "publishedAt": "2026-10-09T14:29:18Z",
+    "name": "Voicewoven 0.1.19-preview.1",
+    "notes": "# Voicewoven 0.1.19-preview.1\n\nThis preview is for Apple Silicon Macs running macOS 14 or later. It is ad hoc signed and **not notarized by Apple**. macOS may block it from opening. If you trust this download, follow Apple's guidance at https://support.apple.com/en-us/102445. Do not disable Gatekeeper.\n\nVoicewoven records microphone and system audio, transcribes meetings locally, identifies speaker segments, and organizes meetings with Tags. This preview includes transcript editing and revision history, language/model selection and reprocessing, live transcription controls, transcript-only retention, local model management, summaries, Tasks, Ask across tagged/date-filtered meetings, storage controls, and English, Spanish and Portuguese interfaces.\n\nNew integration and recovery work includes:\n\n- Opt-in local MCP access for Claude and Codex, with read-only text access, scope controls and client revocation. Audio is never exposed by MCP.\n- Optional Anthropic/OpenAI API access and authenticated Claude Code/Codex clients for summaries and Ask, with separate provider/model selection and credential setup. Choosing an external provider sends the relevant transcript text to it; recording and speech recognition remain local.\n- A correction for multilingual audio whose model output contained useful speech without a language tag. Live-preview failures and skipped backlog are reported separately.\n- Versioned installer checksums and automatic website release metadata.\n\nSpeech and AI models download separately and require additional disk space. Generated transcripts, speaker labels, summaries and answers need review. Transcript edits **do not train the speech model**. Mixed-language meetings and overlapping speakers can still need correction; echo cancellation and automatic call detection are not implemented. Remote backup remains disabled.\n\nAutomated and isolated packaged checks cover the delivered features. Fresh physical microphone/headphone acceptance on this build was waived by the owner. Paid API calls, unlocked-Keychain persistence and signed-in Claude inference require accounts/device access not available during acceptance. Developer ID signing and notarization are unavailable until an Apple Developer account is configured.\n",
+    "prerelease": true,
+    "htmlUrl": "https://github.com/augustocbx/voicewoven-releases/releases/tag/v0.1.19-preview.1",
+    "download": {
+      "fileName": "Voicewoven-0.1.19-preview.1-arm64.dmg",
+      "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v0.1.19-preview.1/Voicewoven-0.1.19-preview.1-arm64.dmg",
+      "size": 240654915,
+      "sha256": "f6f81757fc7844360d7b549a127b499aa5da0e911f58d5d88a43944133856460",
+      "architecture": "arm64",
+      "minimumMacOS": "14.0",
+      "build": "20261009.061824",
+      "notarized": false,
+      "signing": "ad-hoc"
+    }
+  },
+  "releases": [
+    {
+      "version": "0.1.19-preview.1",
+      "tag": "v0.1.19-preview.1",
+      "publishedAt": "2026-10-09T14:29:18Z",
+      "name": "Voicewoven 0.1.19-preview.1",
+      "notes": "# Voicewoven 0.1.19-preview.1\n\nThis preview is for Apple Silicon Macs running macOS 14 or later. It is ad hoc signed and **not notarized by Apple**. macOS may block it from opening. If you trust this download, follow Apple's guidance at https://support.apple.com/en-us/102445. Do not disable Gatekeeper.\n\nVoicewoven records microphone and system audio, transcribes meetings locally, identifies speaker segments, and organizes meetings with Tags. This preview includes transcript editing and revision history, language/model selection and reprocessing, live transcription controls, transcript-only retention, local model management, summaries, Tasks, Ask across tagged/date-filtered meetings, storage controls, and English, Spanish and Portuguese interfaces.\n\nNew integration and recovery work includes:\n\n- Opt-in local MCP access for Claude and Codex, with read-only text access, scope controls and client revocation. Audio is never exposed by MCP.\n- Optional Anthropic/OpenAI API access and authenticated Claude Code/Codex clients for summaries and Ask, with separate provider/model selection and credential setup. Choosing an external provider sends the relevant transcript text to it; recording and speech recognition remain local.\n- A correction for multilingual audio whose model output contained useful speech without a language tag. Live-preview failures and skipped backlog are reported separately.\n- Versioned installer checksums and automatic website release metadata.\n\nSpeech and AI models download separately and require additional disk space. Generated transcripts, speaker labels, summaries and answers need review. Transcript edits **do not train the speech model**. Mixed-language meetings and overlapping speakers can still need correction; echo cancellation and automatic call detection are not implemented. Remote backup remains disabled.\n\nAutomated and isolated packaged checks cover the delivered features. Fresh physical microphone/headphone acceptance on this build was waived by the owner. Paid API calls, unlocked-Keychain persistence and signed-in Claude inference require accounts/device access not available during acceptance. Developer ID signing and notarization are unavailable until an Apple Developer account is configured.\n",
+      "prerelease": true,
+      "htmlUrl": "https://github.com/augustocbx/voicewoven-releases/releases/tag/v0.1.19-preview.1",
+      "download": {
+        "fileName": "Voicewoven-0.1.19-preview.1-arm64.dmg",
+        "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v0.1.19-preview.1/Voicewoven-0.1.19-preview.1-arm64.dmg",
+        "size": 240654915,
+        "sha256": "f6f81757fc7844360d7b549a127b499aa5da0e911f58d5d88a43944133856460",
+        "architecture": "arm64",
+        "minimumMacOS": "14.0",
+        "build": "20261009.061824",
+        "notarized": false,
+        "signing": "ad-hoc"
+      }
+    }
+  ]
 }
