@@ -1,0 +1,11 @@
+{
+  "name": "voicewoven-releases",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test",
+    "validate": "node scripts/validate-manifest.js",
+    "sync": "node scripts/sync-releases.js"
+  }
+}
