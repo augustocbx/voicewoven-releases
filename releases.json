@@ -3,26 +3,46 @@
   "repository": "augustocbx/voicewoven-releases",
   "latest": null,
   "latestPreview": {
-    "version": "0.1.20-preview.1",
-    "tag": "v0.1.20-preview.1",
-    "publishedAt": "2026-10-09T15:57:54Z",
-    "name": "Voicewoven 0.1.20-preview.1",
-    "notes": "# Voicewoven 0.1.20-preview.1\n\nThis preview is for Apple Silicon Macs running macOS 14 or later. It is ad hoc signed and **not notarized by Apple**. macOS may block it from opening. If you trust this download, follow Apple's guidance at https://support.apple.com/en-us/102445. Do not disable Gatekeeper.\n\n- Review a saved transcript correction with its original audio channel and spoken language, then explicitly save a local sound example.\n- Optionally enable experimental acoustic adaptation in Recording settings. It needs two independent recording examples, matching source audio and agreement from a fresh local transcription of the excerpt. It starts disabled and never applies unconditional word substitutions.\n- Inspect adapted turns, restore the original recognition, forget examples, or disable future use. Source-audio removal also removes derived examples.\n- Preserve original word timings through edits and transcription history, with bounded processing, cancellation and temporary-audio cleanup.\n- English, Spanish and Portuguese interface support includes the new controls.\n\nThe small independent Portuguese test accepted one correct word out of fourteen recordings, made no incorrect acceptance across ninety-eight other-label comparisons, and left thirteen recordings unchanged. Coverage is limited. This does not establish accuracy on full meetings or every voice, and it does not train the packaged model weights. Existing edits are not imported automatically; older transcripts need reprocessing for word timing.\n\nModel weights download separately. Nemotron verification must be prepared for automatic acoustic use. Original audio and sound examples remain on the Mac. Optional external AI connections still send only explicitly selected transcript text through the chosen provider or client; available account authentication is required.\n",
+    "version": "0.1.21-preview.1",
+    "tag": "v0.1.21-preview.1",
+    "publishedAt": "2026-10-15T16:47:53Z",
+    "name": "Voicewoven 0.1.21-preview.1",
+    "notes": "# Voicewoven 0.1.21-preview.1\n\nThis preview is for Apple Silicon Macs running macOS 14 or later. It is ad hoc signed and **not notarized by Apple**. macOS may block it from opening. If you trust this download, follow Apple's guidance at https://support.apple.com/en-us/102445. Do not disable Gatekeeper.\n\n- Claude Code connections work with current Claude Code clients (2.1.300 and later). A signed-in personal Pro or Max subscription is now recognized; earlier builds incorrectly reported it as signed out.\n- Summaries, tasks and Ask answers generated through Claude Code now complete. Earlier builds blocked the client's own structured reply, so every request ended without a result.\n- Claude Code model choices list the models your client actually offers, with clear names: Claude Sonnet 5.5, Opus 5.5, Haiku 5.5 and Fable 5.1.\n- Sessions authenticated with an Anthropic API key are still refused on the Claude Code subscription route, so requests never switch silently to API billing.\n\nModel weights download separately. Original audio stays on the Mac. Optional external AI connections send only explicitly selected transcript text through the chosen provider or client, and they require your own account authentication. The experimental acoustic adaptation from 0.1.20 is unchanged and remains off by default.\n",
     "prerelease": true,
-    "htmlUrl": "https://github.com/augustocbx/voicewoven-releases/releases/tag/v0.1.20-preview.1",
+    "htmlUrl": "https://github.com/augustocbx/voicewoven-releases/releases/tag/v0.1.21-preview.1",
     "download": {
-      "fileName": "Voicewoven-0.1.20-preview.1-arm64.dmg",
-      "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v0.1.20-preview.1/Voicewoven-0.1.20-preview.1-arm64.dmg",
-      "size": 241381986,
-      "sha256": "d5452a2eea20e7e100a4c167e331f9a2ba29c63d548dc189f5813ae72d83c652",
+      "fileName": "Voicewoven-0.1.21-preview.1-arm64.dmg",
+      "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v0.1.21-preview.1/Voicewoven-0.1.21-preview.1-arm64.dmg",
+      "size": 242299089,
+      "sha256": "130e3c6e5e037a5fa38a847065a27c154107712d6ddbc0aeffaa7ad426ddb0d6",
       "architecture": "arm64",
       "minimumMacOS": "14.0",
-      "build": "20261009.155007",
+      "build": "20261014.193327",
       "notarized": false,
       "signing": "ad-hoc"
     }
   },
   "releases": [
+    {
+      "version": "0.1.21-preview.1",
+      "tag": "v0.1.21-preview.1",
+      "publishedAt": "2026-10-15T16:47:53Z",
+      "name": "Voicewoven 0.1.21-preview.1",
+      "notes": "# Voicewoven 0.1.21-preview.1\n\nThis preview is for Apple Silicon Macs running macOS 14 or later. It is ad hoc signed and **not notarized by Apple**. macOS may block it from opening. If you trust this download, follow Apple's guidance at https://support.apple.com/en-us/102445. Do not disable Gatekeeper.\n\n- Claude Code connections work with current Claude Code clients (2.1.300 and later). A signed-in personal Pro or Max subscription is now recognized; earlier builds incorrectly reported it as signed out.\n- Summaries, tasks and Ask answers generated through Claude Code now complete. Earlier builds blocked the client's own structured reply, so every request ended without a result.\n- Claude Code model choices list the models your client actually offers, with clear names: Claude Sonnet 5.5, Opus 5.5, Haiku 5.5 and Fable 5.1.\n- Sessions authenticated with an Anthropic API key are still refused on the Claude Code subscription route, so requests never switch silently to API billing.\n\nModel weights download separately. Original audio stays on the Mac. Optional external AI connections send only explicitly selected transcript text through the chosen provider or client, and they require your own account authentication. The experimental acoustic adaptation from 0.1.20 is unchanged and remains off by default.\n",
+      "prerelease": true,
+      "htmlUrl": "https://github.com/augustocbx/voicewoven-releases/releases/tag/v0.1.21-preview.1",
+      "download": {
+        "fileName": "Voicewoven-0.1.21-preview.1-arm64.dmg",
+        "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v0.1.21-preview.1/Voicewoven-0.1.21-preview.1-arm64.dmg",
+        "size": 242299089,
+        "sha256": "130e3c6e5e037a5fa38a847065a27c154107712d6ddbc0aeffaa7ad426ddb0d6",
+        "architecture": "arm64",
+        "minimumMacOS": "14.0",
+        "build": "20261014.193327",
+        "notarized": false,
+        "signing": "ad-hoc"
+      }
+    },
     {
       "version": "0.1.20-preview.1",
       "tag": "v0.1.20-preview.1",
