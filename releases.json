@@ -3,26 +3,46 @@
   "repository": "augustocbx/voicewoven-releases",
   "latest": null,
   "latestPreview": {
-    "version": "0.1.24-preview.1",
-    "tag": "v0.1.24-preview.1",
-    "publishedAt": "2026-10-16T21:16:37Z",
-    "name": "Voicewoven 0.1.24-preview.1",
-    "notes": "# Voicewoven 0.1.24-preview.1\n\nThis preview is for Apple Silicon Macs running macOS 14 or later. It is ad hoc signed and **not notarized by Apple**. macOS may block it from opening. If you trust this download, follow Apple's guidance at https://support.apple.com/en-us/102445. Do not disable Gatekeeper.\n\nVoicewoven records microphone and system audio, transcribes meetings locally, separates voices, and organizes meetings with Tags, Tasks, and Ask.\n\n## What is new\n\n- **Rename a participant where you see the name.** In a meeting, click a participant's name in the transcript, or the pencil next to it in the timeline legend, to rename that voice. Every voice grouped under the same name is renamed together, so the name changes everywhere in that meeting. The Participants list in Details still works and uses the same rule. The legend column now fits long names such as \"Unknown voice (microphone)\".\n\n## Please read\n\n- This preview is ad hoc signed, so macOS can treat an update as a new app and stop honoring an earlier permission even though Voicewoven still appears enabled. The permissions window recognizes this case and shows the steps. If it does not appear, open System Settings > Privacy & Security > Screen & System Audio Recording, select Voicewoven, remove it with the minus button, add it again with the plus button (or drag the app from Finder into the list), turn it on, and reopen Voicewoven.\n- Two different people can still be merged into one voice, especially on the system audio channel. A way to correct this is planned; for now rename or leave the grouped name as it is.\n- The speech languages added in 0.1.23 were tested only with synthetic speech. Their accuracy has not been measured on real meetings. Summaries and Ask are still validated only for English, Spanish, and Portuguese.\n- German, French, Japanese, Dutch, and Italian interface texts were translated by an AI model (Claude) and reviewed by another (Codex). No native speaker has reviewed them yet. Please report wording problems.\n- Speech and AI models download separately and need additional disk space. Generated transcripts, speaker labels, summaries, and answers need review.\n\n## Validation\n\nAutomated tests cover the rename dialog and its retry rules, the shared rename path used by the Participants list, the transcript and legend buttons, and the speech language and permission features from 0.1.23. Not yet observed on a Mac: renaming from the transcript and the timeline in the installed app (nine checks in `docs/superpowers/specs/2026-10-16-rename-participants-inline.md`), and the checks listed for 0.1.23. macOS 14 has not been exercised.\n",
+    "version": "0.1.25-preview.1",
+    "tag": "v0.1.25-preview.1",
+    "publishedAt": "2026-10-16T22:51:42Z",
+    "name": "Voicewoven 0.1.25-preview.1",
+    "notes": "# Voicewoven 0.1.25-preview.1\n\nThis preview is for Apple Silicon Macs running macOS 14 or later. It is ad hoc signed and **not notarized by Apple**. macOS may block it from opening. If you trust this download, follow Apple's guidance at https://support.apple.com/en-us/102445. Do not disable Gatekeeper.\n\nVoicewoven records microphone and system audio, transcribes meetings locally, separates voices, and organizes meetings with Tags, Tasks, and Ask.\n\n## What is new\n\n- **Two tools for when different people were merged into one voice.**\n  - **Separate more voices.** In a meeting's Details, check **Separate more voices** before **Reprocess audio**. The voice detector becomes more willing to tell similar voices apart. It can also split one person into several voices, so it is off by default and applies only to that meeting. The transcript version that used it says so.\n  - **Change voice.** Every turn in the transcript has a **Change voice** button next to Edit. It moves only that turn to another voice from the same audio source (microphone or system audio), or to a new voice. The text and timing stay the same. A voice that is left with no turns disappears, and to undo a move you move the turn back.\n\n## Please read\n\n- This preview is ad hoc signed, so macOS can treat an update as a new app and stop honoring an earlier permission even though Voicewoven still appears enabled. The permissions window recognizes this case and shows the steps. If it does not appear, open System Settings > Privacy & Security > Screen & System Audio Recording, select Voicewoven, remove it with the minus button, add it again with the plus button (or drag the app from Finder into the list), turn it on, and reopen Voicewoven.\n- **Separate more voices** was checked on one two-minute recording, where it separated two people that the default settings had merged. It has not been measured on other recordings, so check the result.\n- The speech languages added in 0.1.23 were tested only with synthetic speech. Their accuracy has not been measured on real meetings. Summaries and Ask are still validated only for English, Spanish, and Portuguese.\n- German, French, Japanese, Dutch, and Italian interface texts were translated by an AI model (Claude) and reviewed by another (Codex). No native speaker has reviewed them yet. Please report wording problems.\n- Speech and AI models download separately and need additional disk space. Generated transcripts, speaker labels, summaries, and answers need review.\n\n## Validation\n\nAutomated tests cover the new Reprocess option and how it is stored with each transcript version, moving a turn (including old voice ids, history and restore), the Details checkbox, the Change voice dialog and its keyboard and focus rules. A test on a copy of one real recording showed the two merged people separating with the new option while the default result did not change. Not yet observed on a Mac: both tools in the installed app (nine checks in `docs/superpowers/specs/2026-10-16-speaker-separation-controls.md`) and the checks listed for earlier previews. macOS 14 has not been exercised.\n",
     "prerelease": true,
-    "htmlUrl": "https://github.com/augustocbx/voicewoven-releases/releases/tag/v0.1.24-preview.1",
+    "htmlUrl": "https://github.com/augustocbx/voicewoven-releases/releases/tag/v0.1.25-preview.1",
     "download": {
-      "fileName": "Voicewoven-0.1.24-preview.1-arm64.dmg",
-      "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v0.1.24-preview.1/Voicewoven-0.1.24-preview.1-arm64.dmg",
-      "size": 240948305,
-      "sha256": "4ebebe720f73128b0d3eccd7072779ee62c09f9bd07baa2d52075b50bc3876a8",
+      "fileName": "Voicewoven-0.1.25-preview.1-arm64.dmg",
+      "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v0.1.25-preview.1/Voicewoven-0.1.25-preview.1-arm64.dmg",
+      "size": 240949007,
+      "sha256": "5047897cef3b4d4112e6600ccf645507c1b1f06d822e5f012485d8c417c0b8df",
       "architecture": "arm64",
       "minimumMacOS": "14.0",
-      "build": "20261016.211103",
+      "build": "20261016.224234",
       "notarized": false,
       "signing": "ad-hoc"
     }
   },
   "releases": [
+    {
+      "version": "0.1.25-preview.1",
+      "tag": "v0.1.25-preview.1",
+      "publishedAt": "2026-10-16T22:51:42Z",
+      "name": "Voicewoven 0.1.25-preview.1",
+      "notes": "# Voicewoven 0.1.25-preview.1\n\nThis preview is for Apple Silicon Macs running macOS 14 or later. It is ad hoc signed and **not notarized by Apple**. macOS may block it from opening. If you trust this download, follow Apple's guidance at https://support.apple.com/en-us/102445. Do not disable Gatekeeper.\n\nVoicewoven records microphone and system audio, transcribes meetings locally, separates voices, and organizes meetings with Tags, Tasks, and Ask.\n\n## What is new\n\n- **Two tools for when different people were merged into one voice.**\n  - **Separate more voices.** In a meeting's Details, check **Separate more voices** before **Reprocess audio**. The voice detector becomes more willing to tell similar voices apart. It can also split one person into several voices, so it is off by default and applies only to that meeting. The transcript version that used it says so.\n  - **Change voice.** Every turn in the transcript has a **Change voice** button next to Edit. It moves only that turn to another voice from the same audio source (microphone or system audio), or to a new voice. The text and timing stay the same. A voice that is left with no turns disappears, and to undo a move you move the turn back.\n\n## Please read\n\n- This preview is ad hoc signed, so macOS can treat an update as a new app and stop honoring an earlier permission even though Voicewoven still appears enabled. The permissions window recognizes this case and shows the steps. If it does not appear, open System Settings > Privacy & Security > Screen & System Audio Recording, select Voicewoven, remove it with the minus button, add it again with the plus button (or drag the app from Finder into the list), turn it on, and reopen Voicewoven.\n- **Separate more voices** was checked on one two-minute recording, where it separated two people that the default settings had merged. It has not been measured on other recordings, so check the result.\n- The speech languages added in 0.1.23 were tested only with synthetic speech. Their accuracy has not been measured on real meetings. Summaries and Ask are still validated only for English, Spanish, and Portuguese.\n- German, French, Japanese, Dutch, and Italian interface texts were translated by an AI model (Claude) and reviewed by another (Codex). No native speaker has reviewed them yet. Please report wording problems.\n- Speech and AI models download separately and need additional disk space. Generated transcripts, speaker labels, summaries, and answers need review.\n\n## Validation\n\nAutomated tests cover the new Reprocess option and how it is stored with each transcript version, moving a turn (including old voice ids, history and restore), the Details checkbox, the Change voice dialog and its keyboard and focus rules. A test on a copy of one real recording showed the two merged people separating with the new option while the default result did not change. Not yet observed on a Mac: both tools in the installed app (nine checks in `docs/superpowers/specs/2026-10-16-speaker-separation-controls.md`) and the checks listed for earlier previews. macOS 14 has not been exercised.\n",
+      "prerelease": true,
+      "htmlUrl": "https://github.com/augustocbx/voicewoven-releases/releases/tag/v0.1.25-preview.1",
+      "download": {
+        "fileName": "Voicewoven-0.1.25-preview.1-arm64.dmg",
+        "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v0.1.25-preview.1/Voicewoven-0.1.25-preview.1-arm64.dmg",
+        "size": 240949007,
+        "sha256": "5047897cef3b4d4112e6600ccf645507c1b1f06d822e5f012485d8c417c0b8df",
+        "architecture": "arm64",
+        "minimumMacOS": "14.0",
+        "build": "20261016.224234",
+        "notarized": false,
+        "signing": "ad-hoc"
+      }
+    },
     {
       "version": "0.1.24-preview.1",
       "tag": "v0.1.24-preview.1",
