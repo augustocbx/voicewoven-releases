@@ -3,26 +3,46 @@
   "repository": "augustocbx/voicewoven-releases",
   "latest": null,
   "latestPreview": {
-    "version": "0.1.21-preview.1",
-    "tag": "v0.1.21-preview.1",
-    "publishedAt": "2026-10-15T16:47:53Z",
-    "name": "Voicewoven 0.1.21-preview.1",
-    "notes": "# Voicewoven 0.1.21-preview.1\n\nThis preview is for Apple Silicon Macs running macOS 14 or later. It is ad hoc signed and **not notarized by Apple**. macOS may block it from opening. If you trust this download, follow Apple's guidance at https://support.apple.com/en-us/102445. Do not disable Gatekeeper.\n\n- Claude Code connections work with current Claude Code clients (2.1.300 and later). A signed-in personal Pro or Max subscription is now recognized; earlier builds incorrectly reported it as signed out.\n- Summaries, tasks and Ask answers generated through Claude Code now complete. Earlier builds blocked the client's own structured reply, so every request ended without a result.\n- Claude Code model choices list the models your client actually offers, with clear names: Claude Sonnet 5.5, Opus 5.5, Haiku 5.5 and Fable 5.1.\n- Sessions authenticated with an Anthropic API key are still refused on the Claude Code subscription route, so requests never switch silently to API billing.\n\nModel weights download separately. Original audio stays on the Mac. Optional external AI connections send only explicitly selected transcript text through the chosen provider or client, and they require your own account authentication. The experimental acoustic adaptation from 0.1.20 is unchanged and remains off by default.\n",
+    "version": "0.1.22-preview.1",
+    "tag": "v0.1.22-preview.1",
+    "publishedAt": "2026-10-16T04:48:32Z",
+    "name": "Voicewoven 0.1.22-preview.1",
+    "notes": "# Voicewoven 0.1.22-preview.1\n\nThis preview is for Apple Silicon Macs running macOS 14 or later. It is ad hoc signed and **not notarized by Apple**. macOS may block it from opening. If you trust this download, follow Apple's guidance at https://support.apple.com/en-us/102445. Do not disable Gatekeeper.\n\nVoicewoven records microphone and system audio, transcribes meetings locally, separates voices, and organizes meetings with Tags, Tasks, and Ask.\n\n## What is new\n\n- **Eight interface languages.** Besides English, Spanish, and Brazilian Portuguese, the interface now speaks German, French, Japanese, Dutch, and Italian. Choose one in Settings > General; the default follows the macOS language list. The menus, the menu bar item, and the texts of the macOS permission prompts are translated too.\n- **Technical terms stay as they are.** MCP, API, and the names of products and models are not translated. Every other term uses the word people use most for that concept in each language, and the macOS names (System Settings, Trash, Microphone, and so on) use Apple's own wording.\n- **Plurals, dates, and weeks follow the language.** For example, French counts 0 as singular, Japanese has one form, and weeks start on Monday where that is the local habit.\n- Ask answers in the interface language you choose.\n\n## Please read\n\n- German, French, Japanese, Dutch, and Italian were translated by an AI model (Claude) and reviewed by another (Codex). **No native speaker has reviewed them yet.** Please report wording problems.\n- Speech recognition and the local summary models are still validated only for English, Spanish, and Portuguese. Choosing another interface language changes the interface, not what the models can transcribe.\n- Because this preview is ad hoc signed, macOS can treat an update as a new app and stop honoring an earlier permission even though Voicewoven still appears enabled. If recording fails with a permission message after the update, open System Settings > Privacy & Security > Screen & System Audio Recording, select Voicewoven, remove it with the minus button, add it again with the plus button (or drag the app from Finder into the list), turn it on, and reopen Voicewoven.\n- Speech and AI models download separately and need additional disk space. Generated transcripts, speaker labels, summaries, and answers need review.\n\n## Validation\n\nAutomated tests cover the catalogs of all eight languages, the native menus, the packaged language files, and the main window in each language. Not yet observed on a Mac: each language in the installed app, the layout with long German and Dutch text and with Japanese, and the macOS permission prompts with the system language changed. Fresh physical microphone and headphone acceptance on this build was not repeated. macOS 14 has not been exercised.\n",
     "prerelease": true,
-    "htmlUrl": "https://github.com/augustocbx/voicewoven-releases/releases/tag/v0.1.21-preview.1",
+    "htmlUrl": "https://github.com/augustocbx/voicewoven-releases/releases/tag/v0.1.22-preview.1",
     "download": {
-      "fileName": "Voicewoven-0.1.21-preview.1-arm64.dmg",
-      "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v0.1.21-preview.1/Voicewoven-0.1.21-preview.1-arm64.dmg",
-      "size": 242299089,
-      "sha256": "130e3c6e5e037a5fa38a847065a27c154107712d6ddbc0aeffaa7ad426ddb0d6",
+      "fileName": "Voicewoven-0.1.22-preview.1-arm64.dmg",
+      "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v0.1.22-preview.1/Voicewoven-0.1.22-preview.1-arm64.dmg",
+      "size": 241534409,
+      "sha256": "5a12c4af8cf2ae255c364f694e88a98a1dde63e5eb2d423b757f2e8da29cdd66",
       "architecture": "arm64",
       "minimumMacOS": "14.0",
-      "build": "20261014.193327",
+      "build": "20261016.043241",
       "notarized": false,
       "signing": "ad-hoc"
     }
   },
   "releases": [
+    {
+      "version": "0.1.22-preview.1",
+      "tag": "v0.1.22-preview.1",
+      "publishedAt": "2026-10-16T04:48:32Z",
+      "name": "Voicewoven 0.1.22-preview.1",
+      "notes": "# Voicewoven 0.1.22-preview.1\n\nThis preview is for Apple Silicon Macs running macOS 14 or later. It is ad hoc signed and **not notarized by Apple**. macOS may block it from opening. If you trust this download, follow Apple's guidance at https://support.apple.com/en-us/102445. Do not disable Gatekeeper.\n\nVoicewoven records microphone and system audio, transcribes meetings locally, separates voices, and organizes meetings with Tags, Tasks, and Ask.\n\n## What is new\n\n- **Eight interface languages.** Besides English, Spanish, and Brazilian Portuguese, the interface now speaks German, French, Japanese, Dutch, and Italian. Choose one in Settings > General; the default follows the macOS language list. The menus, the menu bar item, and the texts of the macOS permission prompts are translated too.\n- **Technical terms stay as they are.** MCP, API, and the names of products and models are not translated. Every other term uses the word people use most for that concept in each language, and the macOS names (System Settings, Trash, Microphone, and so on) use Apple's own wording.\n- **Plurals, dates, and weeks follow the language.** For example, French counts 0 as singular, Japanese has one form, and weeks start on Monday where that is the local habit.\n- Ask answers in the interface language you choose.\n\n## Please read\n\n- German, French, Japanese, Dutch, and Italian were translated by an AI model (Claude) and reviewed by another (Codex). **No native speaker has reviewed them yet.** Please report wording problems.\n- Speech recognition and the local summary models are still validated only for English, Spanish, and Portuguese. Choosing another interface language changes the interface, not what the models can transcribe.\n- Because this preview is ad hoc signed, macOS can treat an update as a new app and stop honoring an earlier permission even though Voicewoven still appears enabled. If recording fails with a permission message after the update, open System Settings > Privacy & Security > Screen & System Audio Recording, select Voicewoven, remove it with the minus button, add it again with the plus button (or drag the app from Finder into the list), turn it on, and reopen Voicewoven.\n- Speech and AI models download separately and need additional disk space. Generated transcripts, speaker labels, summaries, and answers need review.\n\n## Validation\n\nAutomated tests cover the catalogs of all eight languages, the native menus, the packaged language files, and the main window in each language. Not yet observed on a Mac: each language in the installed app, the layout with long German and Dutch text and with Japanese, and the macOS permission prompts with the system language changed. Fresh physical microphone and headphone acceptance on this build was not repeated. macOS 14 has not been exercised.\n",
+      "prerelease": true,
+      "htmlUrl": "https://github.com/augustocbx/voicewoven-releases/releases/tag/v0.1.22-preview.1",
+      "download": {
+        "fileName": "Voicewoven-0.1.22-preview.1-arm64.dmg",
+        "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v0.1.22-preview.1/Voicewoven-0.1.22-preview.1-arm64.dmg",
+        "size": 241534409,
+        "sha256": "5a12c4af8cf2ae255c364f694e88a98a1dde63e5eb2d423b757f2e8da29cdd66",
+        "architecture": "arm64",
+        "minimumMacOS": "14.0",
+        "build": "20261016.043241",
+        "notarized": false,
+        "signing": "ad-hoc"
+      }
+    },
     {
       "version": "0.1.21-preview.1",
       "tag": "v0.1.21-preview.1",
