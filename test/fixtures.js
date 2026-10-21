@@ -36,3 +36,15 @@ export function assets(version = '1.0.0', firstId = 100) {
     digest: index ? null : `sha256:${sha256}`, value: values[index],
   }));
 }
+export const signature = Buffer.from('untrusted comment: signature from tauri secret key\nRWQfixture\ntrusted comment: fixture\nfixture\n').toString('base64');
+export function updaterAssets(version = '1.0.0', firstId = 103, text = signature) {
+  const archive = `Voicewoven-${version}-arm64.app.tar.gz`;
+  return [[archive, 4_000_000, null], [`${archive}.sig`, Buffer.byteLength(text), text]].map(([name, size, value], index) => ({
+    id: firstId + index, name, state: 'uploaded', size, digest: null, value,
+    browser_download_url: `https://github.com/${repository}/releases/download/v${version}/${name}`,
+  }));
+}
+export function updater(version = '1.0.0', extra = {}) {
+  return { version, pub_date: '2026-10-09T12:00:00Z', platforms: { 'darwin-aarch64': { signature,
+    url: `https://github.com/${repository}/releases/download/v${version}/Voicewoven-${version}-arm64.app.tar.gz` } }, ...extra };
+}

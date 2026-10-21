@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { mkdtemp, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { generateManifest, synchronize } from '../lib/sync.js';
-import { apiRelease, assets, record, repository, sha256 } from './fixtures.js';
+import { generate, generateManifest, synchronize } from '../lib/sync.js';
+import { apiRelease, assets, record, repository, sha256, signature, updater, updaterAssets } from './fixtures.js';
 
 const api = `https://api.github.com/repos/${repository}`;
 function network(releases = [apiRelease()], transform = () => {}) {
@@ -220,4 +220,134 @@ test('refuses to publish a truncated response above the page limit', async () =>
     return new Response(JSON.stringify(Array.from({ length: 100 }, (_, i) => apiRelease(`1.${calls}.${i}`, calls * 100 + i, { draft: true }))));
   } }), /Pagination limit/);
   assert.ok(calls <= 11);
+});
+
+// Gives a fixture release the two updater assets (and a Developer ID record, which previews lack by default).
+function withUpdater(remote, version, id, { text = signature, omit = [], signing = 'developer-id', notarized = true } = {}) {
+  const items = assets(version, id * 100);
+  items[2].value = JSON.stringify(record(version, { signing, notarized }));
+  items[2].size = Buffer.byteLength(items[2].value);
+  items.push(...updaterAssets(version, id * 100 + 3, text).filter(a => !omit.some(suffix => a.name.endsWith(suffix))));
+  remote.routes.set(`${api}/releases/${id}/assets?per_page=100&page=1`, new Response(JSON.stringify(items.map(({ value, ...a }) => a))));
+  for (const item of items) if (item.value !== null) remote.routes.set(item.browser_download_url, new Response(item.value));
+  return remote;
+}
+const versions = result => [result.updaters.stable?.version, result.updaters.preview?.version];
+
+test('a Developer ID release with both updater assets produces the Tauri updater data and never downloads the archive', async () => {
+  const remote = withUpdater(network(), '1.0.0', 10);
+  const result = await generate({ fetchImpl: remote.fetchImpl });
+  assert.deepEqual(result.updaters, { stable: updater('1.0.0'), preview: updater('1.0.0') });
+  assert.equal(remote.calls.some(c => c.url.endsWith('.app.tar.gz')), false);
+});
+
+test('releases without updater assets keep their manifest and produce no updater data or file', async () => {
+  await withFile(async (path, directory) => {
+    const result = await generate({ fetchImpl: network([apiRelease('1.0.0', 10), apiRelease('1.1.0-preview.1', 11)]).fetchImpl });
+    assert.deepEqual(result.updaters, { stable: null, preview: null });
+    assert.equal(result.manifest.latest.version, '1.0.0');
+    await synchronize({ path, fetchImpl: network().fetchImpl });
+    assert.deepEqual(await readdir(directory), ['releases.json']);
+  });
+});
+
+test('a withdrawn release is skipped and the updater files point at the previous good release', async () => {
+  const remote = network([apiRelease('2.0.0', 1, { name: '[WITHDRAWN] Voicewoven 2.0.0' }), apiRelease('1.0.0', 2)]);
+  withUpdater(withUpdater(remote, '2.0.0', 1), '1.0.0', 2);
+  const result = await generate({ fetchImpl: remote.fetchImpl });
+  assert.deepEqual(versions(result), ['1.0.0', '1.0.0']);
+  assert.equal(remote.calls.some(c => c.url.includes('/releases/1/assets') || c.url.includes('v2.0.0')), false);
+});
+
+test('the preview file takes the newer of the newest preview and the newest stable', async () => {
+  const newerPreview = network([apiRelease('1.0.0', 1), apiRelease('1.1.0-preview.1', 2), apiRelease('0.9.0-preview.1', 3)]);
+  for (const [version, id] of [['1.0.0', 1], ['1.1.0-preview.1', 2], ['0.9.0-preview.1', 3]]) withUpdater(newerPreview, version, id);
+  assert.deepEqual(versions(await generate({ fetchImpl: newerPreview.fetchImpl })), ['1.0.0', '1.1.0-preview.1']);
+  const newerStable = network([apiRelease('1.0.0', 1), apiRelease('0.9.0-preview.1', 3)]);
+  for (const [version, id] of [['1.0.0', 1], ['0.9.0-preview.1', 3]]) withUpdater(newerStable, version, id);
+  assert.deepEqual(versions(await generate({ fetchImpl: newerStable.fetchImpl })), ['1.0.0', '1.0.0']);
+});
+
+test('a preview never fills the stable file', async () => {
+  const remote = withUpdater(network([apiRelease('1.0.0-preview.1', 1)]), '1.0.0-preview.1', 1);
+  assert.deepEqual(versions(await generate({ fetchImpl: remote.fetchImpl })), [undefined, '1.0.0-preview.1']);
+});
+
+test('the newest release lacking updater assets is passed over for the newest one that has them', async () => {
+  const remote = withUpdater(network([apiRelease('2.0.0', 1), apiRelease('1.0.0', 2)]), '1.0.0', 2);
+  const result = await generate({ fetchImpl: remote.fetchImpl });
+  assert.deepEqual(versions(result), ['1.0.0', '1.0.0']);
+  assert.equal(result.manifest.latest.version, '2.0.0');
+});
+
+for (const [name, options] of [
+  ['a missing archive', { omit: ['.app.tar.gz'] }],
+  ['a missing signature file', { omit: ['.sig'] }],
+  ['an ad hoc signed preview', { signing: 'ad-hoc', notarized: false }],
+  ['a Developer ID preview that is not notarized', { notarized: false }],
+  ['an oversized signature', { text: 'A'.repeat(4100) }],
+  ['a signature that is not base64', { text: '<html>Not Found</html>' }],
+  ['a signature with padding in the middle', { text: 'AAAA==AAAA==' }],
+]) test(`${name} is skipped without failing the synchronization`, async () => {
+  const remote = withUpdater(network([apiRelease('1.0.0-preview.1', 1)]), '1.0.0-preview.1', 1, options);
+  const result = await generate({ fetchImpl: remote.fetchImpl });
+  assert.deepEqual(result.updaters, { stable: null, preview: null });
+  assert.equal(result.manifest.latestPreview.version, '1.0.0-preview.1');
+});
+
+test('a signature file that is not UTF-8 or has the wrong size is skipped and reported, without failing the synchronization', async () => {
+  const skipped = [];
+  const bad = withUpdater(network([apiRelease('1.0.0', 1)]), '1.0.0', 1);
+  bad.routes.set(updaterAssets('1.0.0')[1].browser_download_url, new Response(Buffer.from([0xff, 0xfe, 0xfd])));
+  assert.deepEqual((await generate({ fetchImpl: bad.fetchImpl, onSkip: version => skipped.push(version) })).updaters, { stable: null, preview: null });
+  assert.deepEqual(skipped, ['1.0.0']);
+  const missing = withUpdater(network([apiRelease('1.0.0', 1)]), '1.0.0', 1);
+  missing.routes.set(updaterAssets('1.0.0')[1].browser_download_url, new Response('not found', { status: 404 }));
+  assert.deepEqual((await generate({ fetchImpl: missing.fetchImpl })).updaters, { stable: null, preview: null });
+});
+
+test('an oversized signature is not downloaded', async () => {
+  const remote = withUpdater(network([apiRelease('1.0.0', 1)]), '1.0.0', 1, { text: 'A'.repeat(4100) });
+  await generate({ fetchImpl: remote.fetchImpl });
+  assert.equal(remote.calls.some(c => c.url.endsWith('.sig')), false);
+});
+
+test('a signature file may end with one newline and is inlined without it', async () => {
+  const remote = withUpdater(network(), '1.0.0', 10, { text: `${signature}\n` });
+  assert.equal((await generate({ fetchImpl: remote.fetchImpl })).updaters.stable.platforms['darwin-aarch64'].signature, signature);
+});
+
+test('failing to read the signature fails the synchronization instead of dropping the channel', async () => {
+  const remote = withUpdater(network(), '1.0.0', 10);
+  remote.routes.set(updaterAssets('1.0.0')[1].browser_download_url, new Error('Network unavailable'));
+  await assert.rejects(generate({ fetchImpl: remote.fetchImpl }));
+});
+
+test('updater files are written with releases.json, left alone when unchanged and removed when nothing qualifies', async () => {
+  await withFile(async (path, directory) => {
+    const stable = join(directory, 'updater', 'stable.json'), preview = join(directory, 'updater', 'preview.json');
+    assert.equal((await synchronize({ path, fetchImpl: withUpdater(network(), '1.0.0', 10).fetchImpl })).changed, true);
+    assert.deepEqual(JSON.parse(await readFile(stable)), updater('1.0.0'));
+    assert.equal(await readFile(stable, 'utf8'), await readFile(preview, 'utf8'));
+    assert.equal((await readFile(stable, 'utf8')).endsWith('}\n'), true);
+    const modified = (await stat(stable)).mtimeMs;
+    assert.equal((await synchronize({ path, fetchImpl: withUpdater(network(), '1.0.0', 10).fetchImpl })).changed, false);
+    assert.equal((await stat(stable)).mtimeMs, modified);
+    const withdrawn = withUpdater(network([apiRelease('1.0.0', 10, { name: '[WITHDRAWN] Voicewoven 1.0.0' })]), '1.0.0', 10);
+    assert.equal((await synchronize({ path, fetchImpl: withdrawn.fetchImpl })).changed, true);
+    assert.deepEqual(await readdir(join(directory, 'updater')), []);
+  });
+});
+
+test('each updater file follows its own channel and is removed when that channel no longer qualifies', async () => {
+  await withFile(async (path, directory) => {
+    const files = async () => (await readdir(join(directory, 'updater'))).sort();
+    const both = withUpdater(withUpdater(network([apiRelease('1.0.0', 1), apiRelease('1.1.0-preview.1', 2)]), '1.0.0', 1), '1.1.0-preview.1', 2);
+    await synchronize({ path, fetchImpl: both.fetchImpl });
+    assert.deepEqual(await files(), ['preview.json', 'stable.json']);
+    await synchronize({ path, fetchImpl: withUpdater(network([apiRelease('1.1.0-preview.1', 2)]), '1.1.0-preview.1', 2).fetchImpl });
+    assert.deepEqual(await files(), ['preview.json']);
+    await synchronize({ path, fetchImpl: network([apiRelease('1.1.0-preview.1', 2)]).fetchImpl });
+    assert.deepEqual(await files(), []);
+  });
 });
