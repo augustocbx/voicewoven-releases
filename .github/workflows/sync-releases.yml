@@ -28,11 +28,13 @@ jobs:
       - run: npm run validate
       - name: Commit a changed manifest
         run: |
-          if git diff --quiet -- releases.json; then
+          # git diff ignores new files, and git add fails on a path that no longer exists: list what changed.
+          changed=$(git status --porcelain --untracked-files=all -- releases.json updater | cut -c4-)
+          if [ -z "$changed" ]; then
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- releases.json
+          git add -A -- $changed
           git commit -m 'Update release manifest'
           git push origin HEAD:main

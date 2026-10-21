@@ -86,13 +86,40 @@ The `sync-releases.yml` workflow runs on published, edited, deleted, unpublished
 
 1. Checks out the trusted `main` branch and runs the tests.
 2. Reads all release and asset pages from fixed GitHub API endpoints.
-3. Fetches only the small checksum and JSON metadata assets, with bounded reads and a restricted GitHub CDN redirect allowlist. The API token is never sent to asset/CDN requests.
+3. Fetches only the small checksum, JSON metadata and updater `.sig` assets, with bounded reads and a restricted GitHub CDN redirect allowlist. The API token is never sent to asset/CDN requests.
 4. Validates the complete result before atomically replacing the manifest.
-5. Commits only `releases.json`, and only if its bytes changed.
+5. Commits only `releases.json` and the `updater/` files, and only if their bytes changed, in one commit.
 
 Network failures, malformed responses, invalid assets, and exceeded limits fail the workflow and preserve the previous manifest. A successful empty API response clears the list, so deleting every release does not leave stale download links. A failed later page never produces a truncated history. No generation timestamp is included, which makes unchanged runs deterministic.
 
 Bounds are explicit: at most 1,000 releases and 1,000 assets per release, API pages of 100, 8 MiB per API response, 16 KiB per release record, 512 bytes per checksum, 20,000 characters per release note, and **2 MiB for the serialized manifest**. Fetches time out after 30 seconds. Exceeding a limit requires a deliberate contract update; old entries are not silently dropped.
+
+## Updater files
+
+A Developer ID release may also carry the in-place update archive and its Tauri signature:
+
+```text
+Voicewoven-<version>-arm64.app.tar.gz
+Voicewoven-<version>-arm64.app.tar.gz.sig
+```
+
+The same synchronization run writes `updater/stable.json` and `updater/preview.json` in Tauri's static updater format, in the same commit as `releases.json`:
+
+```json
+{
+  "version": "1.0.0",
+  "notes": "Release notes.",
+  "pub_date": "2026-10-09T12:00:00Z",
+  "platforms": {
+    "darwin-aarch64": { "signature": "<contents of the .sig file>", "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v1.0.0/Voicewoven-1.0.0-arm64.app.tar.gz" }
+  }
+}
+```
+
+- **Eligibility:** a release that is not withdrawn, has an eligible installer, is signed with Developer ID, and has both files. The `.sig` must be at most 4 KB of base64 text (one trailing newline is allowed). A release that fails any of these is skipped, without failing the synchronization; ad hoc builds are never offered in place. The archive itself is never downloaded here.
+- **`stable.json`:** the newest eligible stable release. **`preview.json`:** the newest eligible release of either channel, so a stable newer than every preview serves both files.
+- **No eligible release:** the file does not exist. A withdrawn release drops out, so the files fall back to the previous eligible release (or disappear).
+- **Contract:** `npm run validate` also checks both files against `releases.json`: exact fields, the release's notes and date, and a URL on this repository's GitHub release downloads for the matching tag. Releases published without these assets produce no updater file and are unaffected.
 
 The canonical static manifest is:
 
@@ -124,7 +151,7 @@ npm run sync
 
 `npm run sync` reads the public API anonymously by default. Set `GITHUB_TOKEN` only in the process environment when a higher rate limit or draft visibility is needed. Do not save tokens in files, release records, notes, or command arguments. GitHub Actions supplies its repository-scoped token automatically.
 
-Tests cover channel eligibility, strict URLs and dates, checksum/record/asset consistency, pagination, hostile redirects and notes, edits and deletions, empty state, atomic preservation on failure, size limits, deterministic updates, and CLI exit behavior. The test workflow runs on Linux with Node.js 22 and 24. No macOS build runs in this public repository.
+Tests cover channel eligibility, updater file selection and validation, strict URLs and dates, checksum/record/asset consistency, pagination, hostile redirects and notes, edits and deletions, empty state, atomic preservation on failure, size limits, deterministic updates, and CLI exit behavior. The test workflow runs on Linux with Node.js 22 and 24. No macOS build runs in this public repository.
 
 ## Repository setup and operational requirements
 
