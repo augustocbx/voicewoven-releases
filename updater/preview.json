@@ -1,0 +1,10 @@
+{
+  "version": "0.1.29-preview.1",
+  "pub_date": "2026-10-21T18:37:48Z",
+  "platforms": {
+    "darwin-aarch64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRL0FkaFNvb0hVTi9BZHgxUTAraDNZeU9XTTN3Znd2Mms2d2lURGZvL090eTdxMFZhdXQxdllMNy83L3N5VUpITFRpSTdoNkRTTE81ZjJCU1hySWJnVDV3N0V6UzUzV2dBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyNjA3MzE4CWZpbGU6Vm9pY2V3b3Zlbi0wLjEuMjktcHJldmlldy4xLWFybTY0LmFwcC50YXIuZ3oJdmVyc2lvbjowLjEuMjktcHJldmlldy4xCk1Tb0tsQ282TU0zaW9rNHlPa2JRc2tITkQwd1pKTXVaM2dZbVBlNHJ5eHQ4VHNSdnZ4QlBNS3JUQTRjai9wa2FRUEs3WU1nUXpUckhic1pnbVY0NUFBPT0K",
+      "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v0.1.29-preview.1/Voicewoven-0.1.29-preview.1-arm64.app.tar.gz"
+    }
+  }
+}
