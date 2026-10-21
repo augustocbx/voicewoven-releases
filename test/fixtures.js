@@ -45,6 +45,6 @@ export function updaterAssets(version = '1.0.0', firstId = 103, text = signature
   }));
 }
 export function updater(version = '1.0.0', extra = {}) {
-  return { version, notes: 'Release notes.', pub_date: '2026-10-09T12:00:00Z', platforms: { 'darwin-aarch64': { signature,
+  return { version, pub_date: '2026-10-09T12:00:00Z', platforms: { 'darwin-aarch64': { signature,
     url: `https://github.com/${repository}/releases/download/v${version}/Voicewoven-${version}-arm64.app.tar.gz` } }, ...extra };
 }

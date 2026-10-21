@@ -223,9 +223,9 @@ test('refuses to publish a truncated response above the page limit', async () =>
 });
 
 // Gives a fixture release the two updater assets (and a Developer ID record, which previews lack by default).
-function withUpdater(remote, version, id, { text = signature, omit = [], signing = 'developer-id' } = {}) {
+function withUpdater(remote, version, id, { text = signature, omit = [], signing = 'developer-id', notarized = true } = {}) {
   const items = assets(version, id * 100);
-  items[2].value = JSON.stringify(record(version, { signing }));
+  items[2].value = JSON.stringify(record(version, { signing, notarized }));
   items[2].size = Buffer.byteLength(items[2].value);
   items.push(...updaterAssets(version, id * 100 + 3, text).filter(a => !omit.some(suffix => a.name.endsWith(suffix))));
   remote.routes.set(`${api}/releases/${id}/assets?per_page=100&page=1`, new Response(JSON.stringify(items.map(({ value, ...a }) => a))));
@@ -283,7 +283,8 @@ test('the newest release lacking updater assets is passed over for the newest on
 for (const [name, options] of [
   ['a missing archive', { omit: ['.app.tar.gz'] }],
   ['a missing signature file', { omit: ['.sig'] }],
-  ['an ad hoc signed preview', { signing: 'ad-hoc' }],
+  ['an ad hoc signed preview', { signing: 'ad-hoc', notarized: false }],
+  ['a Developer ID preview that is not notarized', { notarized: false }],
   ['an oversized signature', { text: 'A'.repeat(4100) }],
   ['a signature that is not base64', { text: '<html>Not Found</html>' }],
   ['a signature with padding in the middle', { text: 'AAAA==AAAA==' }],
@@ -292,6 +293,17 @@ for (const [name, options] of [
   const result = await generate({ fetchImpl: remote.fetchImpl });
   assert.deepEqual(result.updaters, { stable: null, preview: null });
   assert.equal(result.manifest.latestPreview.version, '1.0.0-preview.1');
+});
+
+test('a signature file that is not UTF-8 or has the wrong size is skipped and reported, without failing the synchronization', async () => {
+  const skipped = [];
+  const bad = withUpdater(network([apiRelease('1.0.0', 1)]), '1.0.0', 1);
+  bad.routes.set(updaterAssets('1.0.0')[1].browser_download_url, new Response(Buffer.from([0xff, 0xfe, 0xfd])));
+  assert.deepEqual((await generate({ fetchImpl: bad.fetchImpl, onSkip: version => skipped.push(version) })).updaters, { stable: null, preview: null });
+  assert.deepEqual(skipped, ['1.0.0']);
+  const missing = withUpdater(network([apiRelease('1.0.0', 1)]), '1.0.0', 1);
+  missing.routes.set(updaterAssets('1.0.0')[1].browser_download_url, new Response('not found', { status: 404 }));
+  assert.deepEqual((await generate({ fetchImpl: missing.fetchImpl })).updaters, { stable: null, preview: null });
 });
 
 test('an oversized signature is not downloaded', async () => {

@@ -116,10 +116,10 @@ The same synchronization run writes `updater/stable.json` and `updater/preview.j
 }
 ```
 
-- **Eligibility:** a release that is not withdrawn, has an eligible installer, is signed with Developer ID, and has both files. The `.sig` must be at most 4 KB of base64 text (one trailing newline is allowed). A release that fails any of these is skipped, without failing the synchronization; ad hoc builds are never offered in place. The archive itself is never downloaded here.
+- **Eligibility:** a release that is not withdrawn, has an eligible installer, is signed with Developer ID and notarized, and has both files. The `.sig` must be at most 4 KB of base64 text (one trailing newline is allowed). A release that fails any of these, or whose `.sig` cannot be read as valid text, is skipped without failing the synchronization (the run prints the skipped version); a network failure while reading the `.sig` still fails the run. Ad hoc builds are never offered in place. The archive itself is never downloaded here.
 - **`stable.json`:** the newest eligible stable release. **`preview.json`:** the newest eligible release of either channel, so a stable newer than every preview serves both files.
 - **No eligible release:** the file does not exist. A withdrawn release drops out, so the files fall back to the previous eligible release (or disappear).
-- **Contract:** `npm run validate` also checks both files against `releases.json`: exact fields, the release's notes and date, and a URL on this repository's GitHub release downloads for the matching tag. Releases published without these assets produce no updater file and are unaffected.
+- **Contract:** `npm run validate` also checks both files against `releases.json`: exact fields, the release date, and a URL on this repository's GitHub release downloads for the matching tag. Releases published without these assets produce no updater file and are unaffected.
 
 The canonical static manifest is:
 

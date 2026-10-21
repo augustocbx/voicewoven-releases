@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { validateUpdater } from '../lib/updater.js';
 import { manifest, release, updater } from './fixtures.js';
 
-const listed = manifest([release('1.0.0'), release('1.1.0-preview.1', { download: { ...release('1.1.0-preview.1').download, signing: 'developer-id' } })]);
+const listed = manifest([release('1.0.0'), release('1.1.0-preview.1', { download: { ...release('1.1.0-preview.1').download, signing: 'developer-id', notarized: true } })]);
 
 test('accepts the generated shape for each channel', () => {
   assert.deepEqual(validateUpdater(updater('1.0.0'), listed, 'stable'), updater('1.0.0'));
@@ -12,9 +12,9 @@ test('accepts the generated shape for each channel', () => {
 
 for (const [name, mutate, channel = 'stable'] of [
   ['unknown field', u => { u.extra = 1; }],
-  ['missing field', u => { delete u.notes; }],
+  ['missing field', u => { delete u.pub_date; }],
   ['unknown version', u => { u.version = '9.9.9'; }],
-  ['notes that differ from the release', u => { u.notes = 'Other.'; }],
+  ['an extra notes field', u => { u.notes = 'Other.'; }],
   ['publication date that differs from the release', u => { u.pub_date = '2026-10-10T12:00:00Z'; }],
   ['extra platform', u => { u.platforms['darwin-x86_64'] = u.platforms['darwin-aarch64']; }],
   ['wrong platform', u => { u.platforms = { 'darwin-x86_64': u.platforms['darwin-aarch64'] }; }],
