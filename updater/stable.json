@@ -1,10 +1,10 @@
 {
-  "version": "1.7.0",
-  "pub_date": "2026-11-11T19:25:53Z",
+  "version": "1.8.0",
+  "pub_date": "2026-11-12T03:01:48Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRL0FkaFNvb0hVTngvRFljSkJyTXVERXpOVUErWEpJSkNSK3lBaTE4ZWRCZEo3N25sU2tQcVpMelRGaUl5bEJibkpCdWM1U2R0V1NRZzk5L3NRdlg0RWJqL0xPYm5ORmcwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0NDI0NjYwCWZpbGU6Vm9pY2V3b3Zlbi0xLjcuMC1hcm02NC5hcHAudGFyLmd6CXZlcnNpb246MS43LjAKSkt5di9td3VRZUVGaVJXa2hmcy9SVWNvZ0NYZ2gvTTJ6S3duQmJVNFl1ZmZMaisxZWhmSW1OZEs5dlp3a1lHd2VBKzM1WWl6ZzdJeHdteWc3bXNuRFE9PQo=",
-      "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v1.7.0/Voicewoven-1.7.0-arm64.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRL0FkaFNvb0hVTjlNV0wrYjlJVnh1dms2a3pZSEM5UU8vS2V5WEt3VUk1UFJwZk5XNkJqSW53aWx1d2hWUzVUV1JhbGNDT3VNT3BCSy9teWd6eDh5N3RUdU5aQ1ZRRXdnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0NDUyMDY0CWZpbGU6Vm9pY2V3b3Zlbi0xLjguMC1hcm02NC5hcHAudGFyLmd6CXZlcnNpb246MS44LjAKV09LTWJXMUFNbjhWM3A4a3Y5clVqY3pjbWhwZE9sVVdWTUZENXhOSi93ZkR1SDFQRzB5aHdzYldyY21GREtKYnlWMXZZaEZrV2RIQzZNdFJxUDhjQVE9PQo=",
+      "url": "https://github.com/augustocbx/voicewoven-releases/releases/download/v1.8.0/Voicewoven-1.8.0-arm64.app.tar.gz"
     }
   }
 }
